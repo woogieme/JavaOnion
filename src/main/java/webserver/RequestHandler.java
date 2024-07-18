@@ -3,14 +3,18 @@ package webserver;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import util.UtilClass;
 
 public class RequestHandler extends Thread {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
 
     private Socket connection;
+
+    private UtilClass utilClass = new UtilClass();
 
     public RequestHandler(Socket connectionSocket) {
         this.connection = connectionSocket;
@@ -24,10 +28,14 @@ public class RequestHandler extends Thread {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
 
             //1단계
-
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+            //2단계
+            String url =utilClass.split(br.readLine());
+            System.out.println("url: "+url);
             String line ="";
             while((line =br.readLine())!=null) {
+
                 System.out.println(line);
 
             }
@@ -39,9 +47,16 @@ public class RequestHandler extends Thread {
                 System.out.println(line);
             }
 
+
+
             DataOutputStream dos = new DataOutputStream(out);
 
-            byte[] body = "Hello World".getBytes();
+//            byte[] body = "Hello World".getBytes();
+            byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
+            for (byte b : body) {
+                System.out.print(b);
+            }
+            System.out.println();
             response200Header(dos, body.length);
             responseBody(dos, body);
         } catch (IOException e) {
