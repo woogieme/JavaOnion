@@ -52,10 +52,10 @@ public class RequestHandler extends Thread {
             //3단계
             byte[] body = Files.readAllBytes(new File("./webapp"+tokens[1]).toPath());
 
-            for (byte b : body) {
-                System.out.print(b);
-            }
-            System.out.println();
+//            for (byte b : body) {
+//                System.out.print(b);
+//            }
+//            System.out.println();
             response200Header(dos, body.length);
             responseBody(dos, body);
         } catch (IOException e) {
