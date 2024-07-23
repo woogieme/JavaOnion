@@ -4,7 +4,10 @@ package webserver;
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.sql.SQLOutput;
+import java.util.Arrays;
 
+import main.java.util.IOUtils;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,19 +44,39 @@ public class RequestHandler extends Thread {
             //2단계
             String[] tokens = line.split(" ");
 
+            String parmeterType = tokens[0];
+
+            int len =0;
+
             while(!line.equals("")){
                 line=br.readLine();
-                log.debug(line);
+                String[] tok = line.split(" ");
 
+                if(tok[0].equals("Content-Length:")){
+                    String [] to = line.split(" ");
+                    len = Integer.parseInt(to[1]);
+                }
+                log.debug(line);
             }
 
-            //요구사항 2단계 GET 방식으로 회원가입하기
-            if(tokens[1].startsWith("/user/create")){
-                int index =tokens[1].indexOf("?");
-                String queryString = tokens[1].substring(index+1);
 
-                User user = User.createUser(queryString);
-                log.debug(user.toString());
+            System.out.println(tokens[1]);
+            System.out.println(parmeterType);
+            if(tokens[1].startsWith("/user/create")){
+                if(parmeterType.equals("get")){
+
+                    //요구사항 2단계 GET 방식으로 회원가입하기
+                    int index =tokens[1].indexOf("?");
+                    String queryString = tokens[1].substring(index+1);
+                    User user = User.createUser(queryString);
+                    log.debug(user.toString());
+                }else if(parmeterType.equals("POST")){
+
+                    //요구사항 3단계 POST 방식으로 회원가입하기
+                    String query = IOUtils.readData(br,len);
+                    User user = User.createUser(query);
+                    log.debug(user.toString());
+                }
 
             }else {
 
