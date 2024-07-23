@@ -37,6 +37,9 @@ public class RequestHandler extends Thread {
                 return;
             }
 
+            //2단계
+            String[] tokens = line.split(" ");
+
             while(!line.equals("")){
                 line=br.readLine();
                 log.debug(line);
