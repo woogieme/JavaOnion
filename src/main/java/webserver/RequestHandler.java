@@ -48,7 +48,9 @@ public class RequestHandler extends Thread {
 
             DataOutputStream dos = new DataOutputStream(out);
 
-            byte[] body = "Hello World".getBytes();
+            //byte[] body = "Hello World".getBytes();
+            //3단계
+            byte[] body = Files.readAllBytes(new File("./webapp"+tokens[1]).toPath());
 
             for (byte b : body) {
                 System.out.print(b);
