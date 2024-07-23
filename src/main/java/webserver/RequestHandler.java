@@ -5,6 +5,7 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
 
+import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.UtilClass;
@@ -46,18 +47,25 @@ public class RequestHandler extends Thread {
 
             }
 
-            DataOutputStream dos = new DataOutputStream(out);
+            //요구사항 2단계 GET 방식으로 회원가입하기
+            if(tokens[1].startsWith("/user/create")){
+                int index =tokens[1].indexOf("?");
+                String queryString = tokens[1].substring(index+1);
 
-            //byte[] body = "Hello World".getBytes();
-            //3단계
-            byte[] body = Files.readAllBytes(new File("./webapp"+tokens[1]).toPath());
+                User user = User.createUser(queryString);
+                log.debug(user.toString());
 
-//            for (byte b : body) {
-//                System.out.print(b);
-//            }
-//            System.out.println();
-            response200Header(dos, body.length);
-            responseBody(dos, body);
+            }else {
+
+                DataOutputStream dos = new DataOutputStream(out);
+
+                //byte[] body = "Hello World".getBytes();
+                //3단계
+                byte[] body = Files.readAllBytes(new File("./webapp" + tokens[1]).toPath());
+
+                response200Header(dos, body.length);
+                responseBody(dos, body);
+            }
         } catch (IOException e) {
             log.error(e.getMessage());
         }

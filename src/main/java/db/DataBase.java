@@ -4,8 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-
-import main.java.model.User;
+import model.User;
 
 
 public class DataBase {

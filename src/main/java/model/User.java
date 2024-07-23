@@ -1,4 +1,6 @@
-package main.java.model;
+package model;
+
+import java.util.Map;
 
 public class User {
     private String userId;
@@ -32,5 +34,11 @@ public class User {
     @Override
     public String toString() {
         return "User [userId=" + userId + ", password=" + password + ", name=" + name + ", email=" + email + "]";
+    }
+
+    public static User createUser(String data){
+        Map<String, String> parse = main.java.util.HttpRequestUtils.parseQueryString(data);
+
+        return new User(parse.get("userId"), parse.get("password"), parse.get("name"), parse.get("email"));
     }
 }
