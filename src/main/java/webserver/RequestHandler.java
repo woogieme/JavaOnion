@@ -28,31 +28,25 @@ public class RequestHandler extends Thread {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
 
             //1단계
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            BufferedReader br = new BufferedReader(new InputStreamReader(in,"UTF-8"));
 
-            //2단계
-            String url =utilClass.split(br.readLine());
-            System.out.println("url: "+url);
-            String line ="";
-            while((line =br.readLine())!=null) {
+            String line =br.readLine();
+            log.debug(line);
 
-                System.out.println(line);
-
+            if(line==null){
+                return;
             }
 
-            while(!"".equals(line)) {
-                if(line==null){
-                    return;
-                }
-                System.out.println(line);
+            while(!line.equals("")){
+                line=br.readLine();
+                log.debug(line);
+
             }
-
-
 
             DataOutputStream dos = new DataOutputStream(out);
 
-//            byte[] body = "Hello World".getBytes();
-            byte[] body = Files.readAllBytes(new File("./webapp"+url).toPath());
+            byte[] body = "Hello World".getBytes();
+
             for (byte b : body) {
                 System.out.print(b);
             }
