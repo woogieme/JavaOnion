@@ -1,4 +1,4 @@
-package main.java.db;
+package db;
 
 import java.util.Collection;
 import java.util.Map;
