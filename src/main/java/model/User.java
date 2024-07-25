@@ -1,5 +1,7 @@
 package model;
 
+import util.HttpRequestUtils;
+
 import java.util.Map;
 
 public class User {
@@ -37,7 +39,7 @@ public class User {
     }
 
     public static User createUser(String data){
-        Map<String, String> parse = main.java.util.HttpRequestUtils.parseQueryString(data);
+        Map<String, String> parse = HttpRequestUtils.parseQueryString(data);
 
         return new User(parse.get("userId"), parse.get("password"), parse.get("name"), parse.get("email"));
     }
